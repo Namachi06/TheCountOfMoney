@@ -5,20 +5,19 @@ import './styles/app.css';
 // Pages import
 import Home from './pages/Home';
 
-const App = () => {
-  return (
-    <BrowserRouter>
-      <div className="grid-container">
-        <header className="header">
-          <div className="brand">
-            <a href="/">The Count of Money</a>
-          </div>
-        </header>
-        <main className="main">
-          <div className="content">
-            <Route path="/" exact component={Home} />
-            {/* EXAMPLE */}
-            {/* <Route path="/category/:id" component={Home} />
+const App = () => (
+  <BrowserRouter>
+    <div className="grid-container">
+      <header className="header">
+        <div className="brand">
+          <a href="/">The Count of Money</a>
+        </div>
+      </header>
+      <main className="main">
+        <div className="content">
+          <Route path="/" exact component={Home} />
+          {/* EXAMPLE */}
+          {/* <Route path="/category/:id" component={Home} />
             <Route path="/product/:id" component={Product} />
             <Route path="/products" component={Products} />
             <Route path="/register" component={Register} />
@@ -30,14 +29,11 @@ const App = () => {
             <Route path="/placeorder" component={PlaceOrder} />
             <Route path="/order/:id" component={Order} />
             <Route path="/orders" component={Orders} /> */}
-          </div>
-        </main>
-        <footer className="footer">
-          All right reserved.
-        </footer>
-      </div>
-    </BrowserRouter>
-  );
-};
+        </div>
+      </main>
+      <footer className="footer">All right reserved.</footer>
+    </div>
+  </BrowserRouter>
+);
 
 export default App;

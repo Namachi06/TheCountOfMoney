@@ -1,11 +1,11 @@
 import React from 'react';
 
 const Home = () => {
+  const msg = 'This is an example';
+
   return (
     <div>
-      <p>
-        This is an example
-      </p>
+      <p>{msg}</p>
     </div>
   );
 };
