@@ -24,9 +24,7 @@ services:
       - mongo
 
   server:
-      build:
-        context: ./server
-        dockerfile: Dockerfile
+      build: ./server
       container_name: server
       volumes:
        - ./server/:/server
@@ -43,21 +41,19 @@ services:
       networks:
         - app-network
 
-  # app:
-  #   build:
-  #     context: ./client
-  #     dockerfile: Dockerfile
-  #   container_name: app
-  #   volumes:
-  #     - ./client/:/usr/src/application
-  #     - /usr/src/application/node_modules
-  #   stdin_open: true
-  #   depends_on:
-  #     - mongo
-  #   ports:
-  #     - "3000:3000"
-  #   networks:
-  #     - app-network
+  app:
+    build: ./client
+    container_name: app
+    volumes:
+      - ./client/:/application
+      - /application/node_modules
+    stdin_open: true
+    depends_on:
+      - mongo
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
 
 networks:
   app-network:
