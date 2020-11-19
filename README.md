@@ -10,6 +10,14 @@
 
 ## Usage
 
+* Export the following environment variables in order to create the root user and password for mongo:
+    * For **Linux**
+        ```
+        export MONGO_INITDB_ROOT_USERNAME=EnterYourRootUserHere
+        export MONGO_INITDB_ROOT_PASSWORD=EnterYourRootPasswordHere
+        export MONGO_INITDB_DATABASE=DatabaseName
+        ```
+
 * Use and compile the application using docker:
     ```
     docker-compose build

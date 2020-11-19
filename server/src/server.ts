@@ -8,9 +8,9 @@ import userRoute from './database/routes/userRoute.js';
 dotenv.config();
 
 const {
-  MONGO_HOSTNAME, MONGO_PORT, MONGO_DB, SERVER_PORT,
+  MONGO_HOSTNAME, MONGO_PORT, MONGO_DB, SERVER_PORT, MONGO_USER, MONGO_PASSWORD
 } = config;
-const mongodbUrl = `mongodb://${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`;
+const mongodbUrl = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`;
 
 mongoose.connect(mongodbUrl, {
   useNewUrlParser: true,
