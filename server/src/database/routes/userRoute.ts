@@ -1,14 +1,18 @@
-import express from 'express';
-import User from '../models/userModel.mjs';
-import { getToken, isAuth } from '../../authentication.mjs';
+import express, { Response } from 'express';
+import User from '../models/userModel';
+import { getToken, isAuth } from '../../authentication';
 
 const router = express.Router();
 
 // Update User
-router.put('/:id', isAuth, async (req, res) => {
+// /!\ Dirty isAuth as any, if you have better solution please do it. 
+router.put('/:id', isAuth as any, async (req, res:Response) => {
   try {
     const userId = req.params.id;
     const user = await User.findById(userId);
+
+    if (!user)
+      throw ("User not found");
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.password = req.body.password || user.password;
@@ -34,6 +38,9 @@ router.post('/signin', async (req, res) => {
       email: req.body.email,
       password: req.body.password,
     });
+
+    if (!signinUser)
+      throw "User could not be signed in.";
     return res.send({
       status: "ok",
       data: {

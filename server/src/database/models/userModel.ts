@@ -1,6 +1,15 @@
 import mongoose from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
+export interface UserDocument extends mongoose.Document
+{
+  name:string;
+  email:string;
+  password:string;
+  address:string;
+  isAdmin:boolean;
+}
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -23,7 +32,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const userModel = mongoose.model('User', userSchema);
+const userModel = mongoose.model<UserDocument>('User', userSchema);
 
 userSchema.plugin(uniqueValidator);
 

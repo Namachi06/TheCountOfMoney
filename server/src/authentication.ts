@@ -1,7 +1,14 @@
 import jwt from 'jsonwebtoken';
-import config from './assets/config.mjs';
+import config from './assets/config';
+import { UserDocument } from "./database/models/userModel";
+import { Request, Response } from "express";
 
-const getToken = (user) => jwt.sign({
+export interface UserAuthRequest extends Request
+{
+  user:UserDocument;
+}
+
+const getToken = (user:UserDocument) => jwt.sign({
   _id: user._id,
   name: user.name,
   email: user.email,
@@ -10,23 +17,22 @@ const getToken = (user) => jwt.sign({
   expiresIn: '48h',
 });
 
-const isAuth = (req, res, next) => {
+const isAuth = (req:UserAuthRequest, res:Response, next:Function) => {
   const token = req.headers.authorization;
   if (token) {
     const onlyToken = token.slice(7, token.length);
-    jwt.verify(onlyToken, config.JWT_SECRET, (err, decode) => {
+    jwt.verify(onlyToken, config.JWT_SECRET, (err, decode:UserDocument) => {
       if (err) {
         return res.status(401).send({ message: 'Invalid Token.' });
       }
       req.user = decode;
       next();
     });
-  } else {
-    return res.status(401).send({ message: 'Token is not supplied.' });
   }
+  return res.status(401).send({ message: 'Token is not supplied.' });
 };
 
-const isAdmin = (req, res, next) => {
+const isAdmin = (req:UserAuthRequest, res:Response, next:Function) => {
   if (req.user && req.user.isAdmin) {
     return next();
   }
