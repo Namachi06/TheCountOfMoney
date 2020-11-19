@@ -2,8 +2,9 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import config from './assets/config.js';
-import userRoute from './database/routes/userRoute.js';
+import config from './assets/config';
+import userRoute from './database/routes/userRoute';
+import cryptoRoute from './database/routes/cryptoRoute';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use('/api/users', userRoute);
+app.use('/api/crypto', cryptoRoute);
 
 app.listen(SERVER_PORT, () => {
   console.log(`Server started at ${SERVER_PORT}`);
