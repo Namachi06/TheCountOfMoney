@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import config from './assets/config';
 import { UserDocument } from "./database/models/userModel";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 export interface UserAuthRequest extends Request
 {
@@ -17,26 +17,27 @@ const getToken = (user:UserDocument) => jwt.sign({
   expiresIn: '48h',
 });
 
-const isAuth = (req:UserAuthRequest, res:Response, next:Function) => {
+const isAuth = (req:UserAuthRequest, res:Response, next:NextFunction) => {
   const token = req.headers.authorization;
   if (token) {
     const onlyToken = token.slice(7, token.length);
-    jwt.verify(onlyToken, config.JWT_SECRET, (err, decode:UserDocument) => {
+    jwt.verify(onlyToken, config.JWT_SECRET, (err, decode) => {
       if (err) {
-        return res.status(401).send({ message: 'Invalid Token.' });
+        res.status(401).send({ message: 'Invalid Token.' });
+        return;
       }
-      req.user = decode;
+      req.user = decode as UserDocument;
       next();
     });
   }
-  return res.status(401).send({ message: 'Token is not supplied.' });
+  res.status(401).send({ message: 'Token is not supplied.' });
 };
 
-const isAdmin = (req:UserAuthRequest, res:Response, next:Function) => {
+const isAdmin = (req:UserAuthRequest, res:Response, next:NextFunction) => {
   if (req.user && req.user.isAdmin) {
-    return next();
+    next();
   }
-  return res.status(401).send({ message: 'Not an Admin.' });
+  res.status(401).send({ message: 'Not an Admin.' });
 };
 
 export { getToken, isAuth, isAdmin };

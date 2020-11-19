@@ -5,7 +5,7 @@ import { getToken, isAuth } from '../../authentication';
 const router = express.Router();
 
 // Update User
-// /!\ Dirty isAuth as any, if you have better solution please do it. 
+// /!\ Dirty isAuth as any, if you have better solution please do it.
 router.put('/:id', isAuth as any, async (req, res:Response) => {
   try {
     const userId = req.params.id;
